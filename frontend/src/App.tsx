@@ -29,7 +29,7 @@ function App() {
     setMedia(null);
 
     try {
-      const response = await axios.post('http://localhost:3000/scrape', { url });
+      const response = await axios.post('https://mediascraper-1.onrender.com', { url });
       setMedia(response.data);
       if (response.data.images.length > 0) setActiveTab('images');
       else if (response.data.videos.length > 0) setActiveTab('videos');
