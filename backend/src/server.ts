@@ -3,7 +3,7 @@ import cors from 'cors';
 import { chromium, Page } from 'playwright';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +24,10 @@ app.post('/scrape', async (req: Request, res: Response): Promise<void> => {
 
     let browser;
     try {
-        browser = await chromium.launch({ headless: true,  args: ["--no-sandbox", "--disable-setuid-sandbox"] });
+        browser = await chromium.launch({
+            headless: true,
+            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+        });
         const context = await browser.newContext({
             userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             viewport: { width: 1280, height: 720 }
@@ -189,6 +192,6 @@ app.post('/scrape', async (req: Request, res: Response): Promise<void> => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on :${PORT}`);
+app.listen(Number(PORT), '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
 });
